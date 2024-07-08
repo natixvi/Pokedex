@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
     this.items =[
         {
           label: 'Files',
-          icon: 'pi pi-file',
+          icon: 'pokeball-icon',
           items: [
             {label: 'Gen-1',},
             {label: 'Gen-2',},
