@@ -1,0 +1,7 @@
+.pokeball-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: url('/assets/pokeball.svg') no-repeat center center;
+  background-size: contain;
+}
