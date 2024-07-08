@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.items =[
         {
-          label: 'Files',
+          label: 'Pokemon`s',
           icon: 'pokeball-icon',
           items: [
             {label: 'Gen-1',},
