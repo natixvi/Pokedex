@@ -1,0 +1,15 @@
+
+::ng-deep .pokeball-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  background: url('..\\..\\assets\\pokeball.png') no-repeat center center;
+  background-size: contain;
+}
+
+::ng-deep .p-panelmenu{
+  width: 325px;
+  margin-left: 20px;
+
+
+}
