@@ -1,3 +1,6 @@
 export interface Type{
-    name: string
+    type: {
+        name: string
+    }
+    
 }
