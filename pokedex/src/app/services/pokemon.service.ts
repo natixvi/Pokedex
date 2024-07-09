@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { PokemonResponse } from '../models/pokemonResponse';
+import { PokemonDetails } from '../models/pokemonDetails';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,7 @@ export class PokemonService {
   private apiUrl = "https://pokeapi.co/api/v2";
   constructor(private http: HttpClient) { }
 
-  getPokemons(limit?: number, offset?: number): Observable<any>{
+  getPokemons(limit?: number, offset?: number): Observable<PokemonResponse>{
     let params = new HttpParams();
 
     if(offset != undefined){
@@ -20,6 +22,24 @@ export class PokemonService {
       params = params.set('limit', limit.toString());
     }
 
-    return this.http.get<any>(`${this.apiUrl}/pokemon`, { params })
+    return this.http.get<PokemonResponse>(`${this.apiUrl}/pokemon`, { params })
+  }
+
+  getPokemonByName(name: string): Observable<PokemonDetails>{
+    return this.http.get<any>(`${this.apiUrl}/pokemon/${name}/`).pipe(
+      map(response => ({
+        id: response.id,
+        name: response.name,
+        height: response.height,
+        order: response.order,
+        weight: response.weight,
+        types: response.types,
+        species: { url: response.species.url }
+      } as PokemonDetails))
+    );
+  }
+
+  getPokemonById(id: number): Observable<PokemonDetails>{
+    return this.http.get<PokemonDetails>(`${this.apiUrl}/pokemon/${id}/`);
   }
 }
