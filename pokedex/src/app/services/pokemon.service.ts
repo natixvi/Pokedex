@@ -22,11 +22,16 @@ export class PokemonService {
       params = params.set('limit', limit.toString());
     }
 
-    return this.http.get<PokemonResponse>(`${this.apiUrl}/pokemon`, { params })
+    return this.http.get<PokemonResponse>(`${this.apiUrl}/pokemon`, { params }).pipe(
+      map(response => ({
+        next: response.next,
+        results: response.results
+      } as PokemonResponse))
+    );
   }
 
   getPokemonByName(name: string): Observable<PokemonDetails>{
-    return this.http.get<any>(`${this.apiUrl}/pokemon/${name}/`).pipe(
+    return this.http.get<PokemonDetails>(`${this.apiUrl}/pokemon/${name}/`).pipe(
       map(response => ({
         id: response.id,
         name: response.name,
@@ -40,6 +45,16 @@ export class PokemonService {
   }
 
   getPokemonById(id: number): Observable<PokemonDetails>{
-    return this.http.get<PokemonDetails>(`${this.apiUrl}/pokemon/${id}/`);
+    return this.http.get<PokemonDetails>(`${this.apiUrl}/pokemon/${id}/`).pipe(
+      map(response => ({
+        id: response.id,
+        name: response.name,
+        height: response.height,
+        order: response.order,
+        weight: response.weight,
+        types: response.types,
+        species: { url: response.species.url }
+      } as PokemonDetails))
+    );
   }
 }
