@@ -23,6 +23,7 @@ export class NavbarComponent implements OnInit {
           label: 'Pokemon`s',
           icon: 'pokeball-icon',
           items: [
+            {label: 'All'},
             {label: 'Gen-1',},
             {label: 'Gen-2',},
             {label: 'Gen-3',}
