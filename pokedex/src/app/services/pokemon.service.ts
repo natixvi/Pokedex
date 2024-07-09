@@ -25,7 +25,10 @@ export class PokemonService {
     return this.http.get<PokemonResponse>(`${this.apiUrl}/pokemon`, { params }).pipe(
       map(response => ({
         next: response.next,
-        results: response.results
+        results: response.results.map( pokemon => ({
+          name: pokemon.name,
+          image: `https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`
+        }))
       } as PokemonResponse))
     );
   }
@@ -39,9 +42,11 @@ export class PokemonService {
         order: response.order,
         weight: response.weight,
         types: response.types,
-        species: { url: response.species.url }
+        species: { url: response.species.url },
+        image: `https://img.pokemondb.net/artwork/large/${response.name}.jpg`
       } as PokemonDetails))
     );
+
   }
 
   getPokemonById(id: number): Observable<PokemonDetails>{
@@ -53,7 +58,8 @@ export class PokemonService {
         order: response.order,
         weight: response.weight,
         types: response.types,
-        species: { url: response.species.url }
+        species: { url: response.species.url },
+        image: `https://img.pokemondb.net/artwork/large/${response.name}.jpg`
       } as PokemonDetails))
     );
   }
