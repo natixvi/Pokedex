@@ -9,5 +9,6 @@ export interface PokemonDetails{
     types: Type[],
     species: { 
         url: string,
-    }
+    },
+    image: string
 }
