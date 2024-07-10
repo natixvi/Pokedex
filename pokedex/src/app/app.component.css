@@ -1,0 +1,13 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+@media screen and (min-width: 1920px) {
+    .content, app-navbar, app-footer{
+        max-width: 1728px; 
+    }
+}
