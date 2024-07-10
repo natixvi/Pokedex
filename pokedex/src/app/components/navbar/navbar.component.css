@@ -6,10 +6,3 @@
   background: url('..\\..\\assets\\pokeball.png') no-repeat center center;
   background-size: contain;
 }
-
-::ng-deep .p-panelmenu{
-  width: 325px;
-  margin-left: 20px;
-
-
-}
