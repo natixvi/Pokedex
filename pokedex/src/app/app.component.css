@@ -3,7 +3,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    margin: 10px;
+    padding: 10px;
 }
 
 @media screen and (min-width: 1920px) {
@@ -11,3 +12,6 @@
         max-width: 1728px; 
     }
 }
+
+
+
