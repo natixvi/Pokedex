@@ -1,1 +1,16 @@
 @import "primeicons/primeicons.css";
+
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+
+.center-layout{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
