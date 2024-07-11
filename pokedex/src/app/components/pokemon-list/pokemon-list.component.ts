@@ -24,7 +24,7 @@ export class PokemonListComponent implements OnInit, OnDestroy {
   
   ngOnInit(): void {
     this.subscription = this.sharedPokemonListAndNav.changedParam.subscribe(params => this.getPokemons(params.limit,params.offset))
-   this.getPokemons(386)
+   this.getPokemons(1025)
    
   }
 
