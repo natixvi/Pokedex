@@ -1,0 +1,6 @@
+@if (pokemonDetails | async; as pokemon) {
+    <p>{{pokemon.name}}</p>
+    <button [routerLink]="['/pokemon', 'ivysaur']">next</button>
+}
+
+

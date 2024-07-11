@@ -5,12 +5,13 @@ import { Subscription} from 'rxjs';
 import { SharedPokemonListAndNavService } from '../../services/shared/shared-pokemon-list-and-nav.service';
 import { ButtonModule } from 'primeng/button';
 import { Pokemon } from '../../models/pokemon';
+import { RouterModule } from '@angular/router';
 
 
 @Component({
   selector: 'app-pokemon-list',
   standalone: true,
-  imports: [CardModule,ButtonModule],
+  imports: [CardModule, ButtonModule, RouterModule],
   templateUrl: './pokemon-list.component.html',
   styleUrl: './pokemon-list.component.css'
 })
