@@ -21,6 +21,9 @@
                 <p-divider align="left" type="solid">
                     <b>Types</b> 
                 </p-divider>
+                @for (type of pokemon.types; track $index) {
+                    <app-pokemon-type-tag [type]="type.type.name"></app-pokemon-type-tag>
+                }
             </div>
         </div>
     </div>
