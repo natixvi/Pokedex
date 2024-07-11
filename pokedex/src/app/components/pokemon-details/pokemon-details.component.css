@@ -18,6 +18,9 @@
 .label{
     margin-right: 10px;
 }
+.image-container{
+    min-height: 100px;
+}
 ::ng-deep p-image span{
     display: flex;
     justify-content: center;
@@ -25,6 +28,10 @@
 }
 ::ng-deep p-image img{
     width: 60%;
+    min-height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 app-pokemon-type-tag{
     margin-right: 5px;
