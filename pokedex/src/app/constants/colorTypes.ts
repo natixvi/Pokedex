@@ -1,5 +1,5 @@
 export const POKEMON_TYPE_COLORS: { [key: string]: string } = {
-  normal: '#A8A77A',
+  	normal: '#A8A77A',
 	fire: '#EE8130',
 	water: '#6390F0',
 	electric: '#F7D02C',
