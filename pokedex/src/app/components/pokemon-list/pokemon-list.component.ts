@@ -17,13 +17,15 @@ import { SharedPokemonListAndNavService } from '../../services/shared/shared-pok
 export class PokemonListComponent implements OnInit, OnDestroy {
 
   pokemons: Observable<PokemonResponse> = {} as Observable<PokemonResponse>
-  private subscription: Subscription
+  private subscription: Subscription = {} as Subscription
   constructor(private pokemonService: PokemonService, private sharedPokemonListAndNav: SharedPokemonListAndNavService){
-    this.subscription = this.sharedPokemonListAndNav.changedParam.subscribe(params => this.getPokemons(params.limit,params.offset))
+   
   }
   
   ngOnInit(): void {
+    this.subscription = this.sharedPokemonListAndNav.changedParam.subscribe(params => this.getPokemons(params.limit,params.offset))
    this.getPokemons(386)
+   
   }
 
   ngOnDestroy(): void {
