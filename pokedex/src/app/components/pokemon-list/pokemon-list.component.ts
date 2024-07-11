@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PokemonService } from '../../services/pokemon.service';
 import { PokemonResponse } from '../../models/pokemonResponse';
 import { CardModule } from 'primeng/card';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { SharedPokemonListAndNavService } from '../../services/shared/shared-pokemon-list-and-nav.service';
+
 
 @Component({
   selector: 'app-pokemon-list',
@@ -12,20 +14,27 @@ import { AsyncPipe } from '@angular/common';
   templateUrl: './pokemon-list.component.html',
   styleUrl: './pokemon-list.component.css'
 })
-export class PokemonListComponent implements OnInit {
+export class PokemonListComponent implements OnInit, OnDestroy {
 
   pokemons: Observable<PokemonResponse> = {} as Observable<PokemonResponse>
-  constructor(private pokemonService: PokemonService){
-
+  private subscription: Subscription = {} as Subscription
+  constructor(private pokemonService: PokemonService, private sharedPokemonListAndNav: SharedPokemonListAndNavService){
+   
   }
-
+  
   ngOnInit(): void {
-   this.pokemons = this.getPokemons(151)
+    this.subscription = this.sharedPokemonListAndNav.changedParam.subscribe(params => this.getPokemons(params.limit,params.offset))
+   this.getPokemons(386)
    
   }
 
-  getPokemons(limit?:number,offset?: number): Observable<PokemonResponse>{
-    return this.pokemonService.getPokemons(limit,offset)
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+
+  getPokemons(limit?:number,offset?: number){
+    this.pokemons = this.pokemonService.getPokemons(limit,offset)
   }
 
 
