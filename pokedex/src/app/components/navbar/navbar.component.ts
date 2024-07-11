@@ -38,7 +38,24 @@ export class NavbarComponent implements OnInit {
             {
               label: 'Types',
               items:[
-                {label:'Bug'}
+                {label:'Bug'},
+                {label:'Dark'},
+                {label:'Dragon'},
+                {label:'Electric'},
+                {label:'Fairy'},
+                {label:'Fighting'},
+                {label:'Fire'},
+                {label:'Flying'},
+                {label:'Ghost'},
+                {label:'Grass'},
+                {label:'Ground'},
+                {label:'Ice'},
+                {label:'Normal'},
+                {label:'Poison'},
+                {label:'Psychic'},
+                {label:'Rock'},
+                {label:'Steel'},
+                {label:'Water'}
               ]
             }           
           ]
