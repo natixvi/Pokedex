@@ -4,11 +4,13 @@ import { PokemonResponse } from '../../models/pokemonResponse';
 import { CardModule } from 'primeng/card';
 import { Observable } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-pokemon-list',
   standalone: true,
-  imports: [CardModule,AsyncPipe],
+  imports: [CardModule,AsyncPipe, RouterModule],
   templateUrl: './pokemon-list.component.html',
   styleUrl: './pokemon-list.component.css'
 })
@@ -21,7 +23,6 @@ export class PokemonListComponent implements OnInit {
 
   ngOnInit(): void {
    this.pokemons = this.getPokemons(151)
-   
   }
 
   getPokemons(limit?:number,offset?: number): Observable<PokemonResponse>{
