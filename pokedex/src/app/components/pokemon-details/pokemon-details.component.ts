@@ -7,10 +7,12 @@ import { CommonModule  } from '@angular/common';
 import { ImageModule } from 'primeng/image';
 import { ZeroPadPipe } from '../../pipes/zero-pad.pipe';
 import { DividerModule } from 'primeng/divider';
+import { PokemonTypeTagComponent } from '../pokemon-type-tag/pokemon-type-tag.component';
+
 @Component({
   selector: 'app-pokemon-details',
   standalone: true,
-  imports: [RouterModule, CommonModule, ImageModule, ZeroPadPipe, DividerModule],
+  imports: [RouterModule, CommonModule, ImageModule, ZeroPadPipe, DividerModule, PokemonTypeTagComponent],
   templateUrl: './pokemon-details.component.html',
   styleUrl: './pokemon-details.component.css'
 })

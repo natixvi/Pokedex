@@ -26,3 +26,6 @@
 ::ng-deep p-image img{
     width: 60%;
 }
+app-pokemon-type-tag{
+    margin-right: 5px;
+}
