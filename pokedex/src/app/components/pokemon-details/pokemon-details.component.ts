@@ -1,28 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { Observable, switchMap } from 'rxjs';
 import { PokemonDetails } from '../../models/pokemonDetails';
 import { PokemonService } from '../../services/pokemon.service';
-import { CommonModule } from '@angular/common';
-
+import { CommonModule  } from '@angular/common';
+import { ImageModule } from 'primeng/image';
+import { ZeroPadPipe } from '../../pipes/zero-pad.pipe';
+import { DividerModule } from 'primeng/divider';
 @Component({
   selector: 'app-pokemon-details',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [RouterModule, CommonModule, ImageModule, ZeroPadPipe, DividerModule],
   templateUrl: './pokemon-details.component.html',
   styleUrl: './pokemon-details.component.css'
 })
 export class PokemonDetailsComponent implements OnInit {
 
 
-  pokemonDetails?: Observable<PokemonDetails>;
+  pokemonDetails$?: Observable<PokemonDetails>;
   pokemonName: string = '';
   
   constructor(private route: ActivatedRoute, private pokemonService: PokemonService){}
 
   ngOnInit(): void {
-    this.pokemonDetails = this.route.paramMap.pipe(
-      switchMap( (params: ParamMap) =>
+    this.pokemonDetails$ = this.route.paramMap.pipe(
+      switchMap( params =>
         this.getPokemon(params.get('name') as string)
       ) 
     );
@@ -31,5 +33,6 @@ export class PokemonDetailsComponent implements OnInit {
   getPokemon(name: string) : Observable<PokemonDetails>{
     return this.pokemonService.getPokemonByName(name);
   }
+
 
 }
