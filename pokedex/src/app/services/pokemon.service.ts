@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { PokemonResponse } from '../models/pokemonResponse';
 import { PokemonDetails } from '../models/pokemonDetails';
+import { EvolutionChain } from '../models/EvolutionChain';
+import { EvolutionDetails } from '../models/EvolutionDetails';
+import { PokemonSpecies } from '../models/pokemonSpecies';
 
 @Injectable({
   providedIn: 'root'
@@ -62,5 +65,51 @@ export class PokemonService {
         image: `https://img.pokemondb.net/artwork/large/${response.name}.jpg`
       } as PokemonDetails))
     );
+  }
+
+
+  getPokemonSpecies(url: string): Observable<PokemonSpecies>{
+    return this.http.get<PokemonSpecies>(url).pipe(
+      map(response => ({
+        id: response.id,
+        base_happiness: response.base_happiness,
+        capture_rate: response.capture_rate,
+        is_baby: response.is_baby,
+        is_legendary: response.is_legendary,
+        is_mythical: response.is_mythical,
+        evolution_chain: { url: response.evolution_chain.url}
+      } as PokemonSpecies))
+    );
+  }
+
+  getEvolutionChain(url: string): Observable<EvolutionChain>{
+    return this.http.get<EvolutionChain>(url).pipe(
+      map(response => ({
+        id: response.id,
+        chain: {
+          evolves_to: response.chain.evolves_to.map(evolution => ({
+            species: {name: evolution.species.name},
+            image: `https://img.pokemondb.net/artwork/large/${evolution.species.name}.jpg`
+          })) as EvolutionDetails[]
+        }
+      } as EvolutionChain))
+    );
+  }
+
+  
+  getPokemonDetailsWithEvolution(name: string): Observable<any>{
+    return this.getPokemonByName(name).pipe(
+      switchMap(pokemonDetails => 
+        this.getPokemonSpecies(pokemonDetails.species.url).pipe(
+          switchMap(speciesDetails => 
+            this.getEvolutionChain(speciesDetails.evolution_chain.url).pipe(
+              map(evolutionChain => ({
+                pokemonDetails,
+                speciesDetails,
+                evolutionChain
+              }))
+            ))
+        ))
+    )
   }
 }
