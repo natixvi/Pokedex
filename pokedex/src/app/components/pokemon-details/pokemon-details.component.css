@@ -21,14 +21,15 @@
 .image-container{
     min-height: 100px;
 }
-::ng-deep p-image span{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+img{
+    width: 60%;
 }
-::ng-deep p-image img{
-    width: 45%;
+
+#info{
+    margin-right: 30px;
 }
+
 app-pokemon-type-tag{
     margin-right: 5px;
 }
