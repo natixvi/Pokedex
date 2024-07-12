@@ -1,62 +1,63 @@
 @if (pokemonDetails) {
     <div class="grid nested-grid">
         <div class="col-12" id="header"><span id="name">{{pokemonDetails.name | uppercase }}</span> <span id="order">#{{pokemonDetails.order | zeroPad}}</span></div>
-        <div class="col-12 md:col-6 image-container">
-            <p-image  alt="{{pokemonDetails.name}}" src={{pokemonDetails.image}} [preview]="true" />
+        <div class="col-12 sm:col-12 md:col-4 image-container flex align-items-center justify-content-center">
+            <img  alt="{{pokemonDetails.name}}" src={{pokemonDetails.image}}/>
         </div>
-        <div class="col-12 md:col-6">
+        <div class="col-12 sm:col-12 md:col-8">
             <div class="col-12">
-                <p-divider align="left" type="solid">
-                    <b>Basic details</b> 
-                </p-divider>
-                <div class="col-6">
-                    <p> <span class="info">HEIGHT:</span> {{pokemonDetails.height/10}}m </p>
-                    <p> <span class="info">WEIGHT:</span> {{pokemonDetails.weight/10}}kg </p>
-                </div>
-                <div class="col-6">
-                    @if(pokemonSpeciesDetails){
-                        <p> <span class="info">CAPTURE RATE:</span> {{pokemonSpeciesDetails.capture_rate}} </p>
-                        <p> <span class="info">BASE HAPPINESS:</span> {{pokemonSpeciesDetails.base_happiness}} </p>
-                        <p> <span class="info">IS BABY:</span> 
-                            @if(pokemonSpeciesDetails.is_baby == true){
-                                Yes
+                <p-fieldset legend="Basic details">
+                    <div class="flex p-2">
+                        <div id="info"> 
+                            <p> <span class="info">Height:</span> {{pokemonDetails.height/10}}m </p>
+                            <p> <span class="info">Weight:</span> {{pokemonDetails.weight/10}}kg </p>
+                            @if(pokemonSpeciesDetails){
+                                <p> <span class="info">Capture rate:</span> {{pokemonSpeciesDetails.capture_rate}} </p>
+                                <p> <span class="info">Base happiness:</span> {{pokemonSpeciesDetails.base_happiness}} </p>
                             }
-                            @else{
-                                No
+                        </div>
+                        <div id="info-2">
+                            @if(pokemonSpeciesDetails){
+                                <p> <span class="info">Is baby:</span> 
+                                    @if(pokemonSpeciesDetails.is_baby == true){
+                                        Yes
+                                    }
+                                    @else{
+                                        No
+                                    }
+                                </p>
+                                <p> <span class="info">Is legendary:</span> 
+                                    @if(pokemonSpeciesDetails.is_legendary == true){
+                                        Yes
+                                    }
+                                    @else{
+                                        No
+                                    }
+                                </p>
+                                <p> <span class="info">Is mythical:</span> 
+                                    @if(pokemonSpeciesDetails.is_mythical == true){
+                                        Yes
+                                    }
+                                    @else{
+                                        No
+                                    }
+                                </p>
                             }
-                        </p>
-                        <p> <span class="info">IS LEGENDARY:</span> 
-                            @if(pokemonSpeciesDetails.is_legendary == true){
-                                Yes
-                            }
-                            @else{
-                                No
-                            }
-                        </p>
-                        <p> <span class="info">IS MYTHICAL:</span> 
-                            @if(pokemonSpeciesDetails.is_mythical == true){
-                                Yes
-                            }
-                            @else{
-                                No
-                            }
-                        </p>
+                        </div>
+                    </div>
+                </p-fieldset> 
+            </div>
+            
+            <div class="col-12">
+                <p-fieldset legend="Types">
+                    @for (type of pokemonDetails.types; track $index) {
+                        <app-pokemon-type-tag [type]="type.type.name" class="p-2"></app-pokemon-type-tag>
                     }
-                </div>
-                
-          
+                </p-fieldset>
+            </div>
+        </div> 
+    </div>  
 
-            </div>
-            <div class="col-12">
-                <p-divider align="left" type="solid">
-                    <b>Types</b> 
-                </p-divider>
-                @for (type of pokemonDetails.types; track $index) {
-                    <app-pokemon-type-tag [type]="type.type.name"></app-pokemon-type-tag>
-                }
-            </div>
-        </div>
-    </div>
 }
 
 

@@ -82,20 +82,24 @@ export class PokemonService {
     );
   }
 
-  getEvolutionChain(url: string): Observable<EvolutionChain>{
-    return this.http.get<EvolutionChain>(url).pipe(
+  getEvolutionChain(url: string): Observable<EvolutionChain> {
+    return this.http.get<any>(url).pipe( 
       map(response => ({
         id: response.id,
-        chain: {
-          evolves_to: response.chain.evolves_to.map(evolution => ({
-            species: {name: evolution.species.name},
-            image: `https://img.pokemondb.net/artwork/large/${evolution.species.name}.jpg`
-          })) as EvolutionDetails[]
-        }
-      } as EvolutionChain))
+        chain: this.mapEvolutionChain(response.chain)
+      }))
     );
   }
 
+  private mapEvolutionChain(chain: any): EvolutionDetails {
+    return {
+      species: {
+        name: chain.species.name
+      },
+      image: `https://img.pokemondb.net/artwork/large/${chain.species.name}.jpg`,
+      evolves_to: chain.evolves_to.map((evolve: any) => this.mapEvolutionChain(evolve))
+    };
+  }
   
   getPokemonDetailsWithEvolution(name: string): Observable<any>{
     return this.getPokemonByName(name).pipe(

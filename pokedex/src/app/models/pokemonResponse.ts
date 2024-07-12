@@ -1,6 +1,6 @@
 import { Pokemon } from "./pokemon";
 
 export interface PokemonResponse{
-    next: string | null,
+    next: string | null;
     results: Pokemon[];
 }
