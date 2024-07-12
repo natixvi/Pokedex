@@ -27,11 +27,7 @@
     align-items: center;
 }
 ::ng-deep p-image img{
-    width: 60%;
-    min-height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    width: 45%;
 }
 app-pokemon-type-tag{
     margin-right: 5px;

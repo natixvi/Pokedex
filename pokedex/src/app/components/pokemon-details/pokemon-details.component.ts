@@ -8,6 +8,8 @@ import { ImageModule } from 'primeng/image';
 import { ZeroPadPipe } from '../../pipes/zero-pad.pipe';
 import { DividerModule } from 'primeng/divider';
 import { PokemonTypeTagComponent } from '../pokemon-type-tag/pokemon-type-tag.component';
+import { PokemonSpecies } from '../../models/pokemonSpecies';
+import { EvolutionChain } from '../../models/EvolutionChain';
 
 @Component({
   selector: 'app-pokemon-details',
@@ -19,21 +21,30 @@ import { PokemonTypeTagComponent } from '../pokemon-type-tag/pokemon-type-tag.co
 export class PokemonDetailsComponent implements OnInit {
 
 
-  pokemonDetails$?: Observable<PokemonDetails>;
+  pokemonDetails?: PokemonDetails;
+  pokemonSpeciesDetails?: PokemonSpecies;
+  pokemonEvolutionChain?: EvolutionChain;
   pokemonName: string = '';
   
   constructor(private route: ActivatedRoute, private pokemonService: PokemonService){}
 
   ngOnInit(): void {
-    this.pokemonDetails$ = this.route.paramMap.pipe(
-      switchMap( params =>
-        this.getPokemon(params.get('name') as string)
-      ) 
+    this.route.paramMap.subscribe(
+      params => {
+        const name = params.get('name');
+        if(name){
+          this.getPokemonDetails(name);
+        }
+      }
     );
   }
 
-  getPokemon(name: string) : Observable<PokemonDetails>{
-    return this.pokemonService.getPokemonByName(name);
+  getPokemonDetails(name: string) : void{
+    this.pokemonService.getPokemonDetailsWithEvolution(name).subscribe(data =>{
+      this.pokemonDetails = data.pokemonDetails,
+      this.pokemonSpeciesDetails = data.speciesDetails,
+      this.pokemonEvolutionChain = data.evolutionChain;
+    })
   }
 
 
