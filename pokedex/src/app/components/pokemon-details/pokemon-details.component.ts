@@ -24,7 +24,7 @@ export class PokemonDetailsComponent implements OnInit {
   pokemonDetails?: PokemonDetails;
   pokemonSpeciesDetails?: PokemonSpecies;
   evolutionChain?: EvolutionChain;
-  evolutionChainList: EvolutionDetails[] = [];
+  evolutionChainList: any[] = [];
 
   pokemonName: string = '';
   
@@ -36,6 +36,7 @@ export class PokemonDetailsComponent implements OnInit {
         const name = params.get('name');
         if(name){
           this.getPokemonDetails(name);
+          
         }
       }
     );
@@ -46,9 +47,7 @@ export class PokemonDetailsComponent implements OnInit {
       this.pokemonDetails = data.pokemonDetails,
       this.pokemonSpeciesDetails = data.speciesDetails,
       this.evolutionChain = data.evolutionChain;
-      console.log(this.evolutionChain)
     })
   }
-
 
 }
