@@ -9,7 +9,6 @@ import { PokemonSpecies } from '../../models/pokemonSpecies';
 import { EvolutionChain } from '../../models/EvolutionChain';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CardModule } from 'primeng/card';
-import { EvolutionDetails } from '../../models/EvolutionDetails';
 
 @Component({
   selector: 'app-pokemon-details',
@@ -47,6 +46,9 @@ export class PokemonDetailsComponent implements OnInit {
       this.pokemonDetails = data.pokemonDetails,
       this.pokemonSpeciesDetails = data.speciesDetails,
       this.evolutionChain = data.evolutionChain;
+      
+      console.log( data.evolutionChain)
+
     })
   }
 
