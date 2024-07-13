@@ -4,5 +4,4 @@ export interface EvolutionDetails{
     };
     image: string;
     evolves_to?: EvolutionDetails[];
-
 }
