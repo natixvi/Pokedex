@@ -1,7 +1,7 @@
 @if (pokemonDetails) {
     <div class="grid nested-grid">
         <div class="col-12" id="header"><span id="name">{{pokemonDetails.name | uppercase }}</span> <span id="order">#{{pokemonDetails.order | zeroPad}}</span></div>
-        <div class="col-12 sm:col-12 md:col-4 image-container flex align-items-center justify-content-center">
+        <div class="col-12 sm:col-12 md:col-4 image-container flex align-items-center justify-content-center" id="info-image">
             <img  alt="{{pokemonDetails.name}}" src={{pokemonDetails.image}}/>
         </div>
         <div class="col-12 sm:col-12 md:col-8">
@@ -57,51 +57,33 @@
             </div>
             
         </div> 
-        <div class="col-12 ">
+        <div class="col-12">
             <h2>Evolution Chain</h2>
             @if (this.evolutionChain && this.evolutionChain.chain.evolves_to && this.evolutionChain.chain.evolves_to.length > 0) {
                 <div class="grid">
                     <ng-container *ngTemplateOutlet="renderEvolutionChain; context: { $implicit: evolutionChain.chain }"></ng-container>
                 </div>
             }
+            @else {
+                <p>This pokemon doesn't evolve.</p>
+            }
             <ng-template #renderEvolutionChain let-chain>
-                @if(chain.evolves_to.length > 1){
-                    <div class="col-12">
-                        <p-card header="{{ chain.species.name }}">
-                            <ng-template pTemplate="header">
-                              <img alt="{{ chain.species.name }}" [src]="'https://img.pokemondb.net/artwork/large/' + chain.species.name + '.jpg'" />
-                            </ng-template>
-                          </p-card>
-                    </div>
-                }@else{
-                    <div class="col-12 sm:col-6 md:col-6 lg:col-4 xl:col-3 evoltion-container">
-                        <p-card header="{{ chain.species.name }}">
-                          <ng-template pTemplate="header">
-                            <img alt="{{ chain.species.name }}" [src]="'https://img.pokemondb.net/artwork/large/' + chain.species.name + '.jpg'" />
-                          </ng-template>
-                        </p-card>
-                      </div>
+                <div class="col-12 md:col-4 lg:col-4 xl:col-3">
+                    <p-card header="{{ chain.species.name }}" >
+                        <ng-template pTemplate="header" class="image">
+                          <img alt="{{ chain.species.name }}" [src]= "chain.image" class="evolution-image" />
+                        </ng-template>
+                    </p-card>
+                </div>
+                @if(chain.evolves_to && chain.evolves_to.length > 0){
+                    <i class="col-12 pi pi-arrow-down" style="color: slateblue; font-size: 2.5rem"></i>
+                        @for (subEvolution of chain.evolves_to; track $index) {
+                            <ng-container *ngTemplateOutlet="renderEvolutionChain; context: { $implicit: subEvolution }"></ng-container>
+                        }  
                 }
-                
-                @if (chain.evolves_to && chain.evolves_to.length > 0) {
-                    @if(chain.evolves_to.length === 1){
-                        <div class="arrow-right"></div>
-                        <ng-container *ngTemplateOutlet="renderEvolutionChain; context: { $implicit: chain.evolves_to[0] }"></ng-container>
-                    }
-                    @else {
-                        <div class="col-12 arrow-down">=></div>
-                        <div class="grid nested-grid">
-                            @for (subEvolution of chain.evolves_to; track $index) {
-                                <ng-container *ngTemplateOutlet="renderEvolutionChain; context: { $implicit: subEvolution }"></ng-container>
-                              }  
-                        </div>
-                    }
-                }
-         </ng-template>
-            
+            </ng-template>
         </div>
     </div>  
 }
 
-  
 
