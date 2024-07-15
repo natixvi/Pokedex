@@ -58,7 +58,7 @@ export class PokemonDetailsComponent implements OnInit {
             this.previousPokemon = prevData;
           })
         }
-        if(currentId < 10277){
+        if(currentId < 1025){
           this.pokemonService.getPokemonById(currentId + 1).subscribe(nextData => {
             this.nextPokemon = nextData;
           });
