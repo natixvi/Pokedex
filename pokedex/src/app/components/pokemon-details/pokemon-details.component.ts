@@ -25,7 +25,6 @@ export class PokemonDetailsComponent implements OnInit {
   pokemonSpeciesDetails?: PokemonSpecies;
   evolutionChain?: EvolutionChain;
   evolutionChainList: any[] = [];
-  isVertical: boolean = false;
   previousPokemon: PokemonDetails = {} as PokemonDetails;
   nextPokemon: PokemonDetails = {} as PokemonDetails;
   pokemonName: string = '';
@@ -65,8 +64,6 @@ export class PokemonDetailsComponent implements OnInit {
         }
       }})
   }
-
-  
 
   moveToAnotherPokemonById(id: number){
     this.router.navigate(['/pokemon', id]);
