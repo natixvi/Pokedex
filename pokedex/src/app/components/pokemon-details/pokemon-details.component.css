@@ -1,0 +1,127 @@
+#header{
+    text-align: center;
+    padding: 1.75rem;
+    font-size: xx-large;
+}
+#name{
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+#order{
+    color: #666666;
+}
+
+.info {
+    margin-bottom: 5px;
+}
+.label{
+    margin-right: 10px;
+}
+.image-container{
+    min-height: 100px;
+}
+
+#info-image img{
+    width: 60%;
+}
+
+#info{
+    margin-right: 30px;
+}
+
+app-pokemon-type-tag{
+    margin-right: 5px;
+}
+
+::ng-deep .custom-button{
+  width: 100%;
+}
+::ng-deep .custom-button span{
+  margin-right: 0px;
+}
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .row {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .evolution-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .evolution-row.vertical {
+    flex-direction: column;
+  }
+  
+  .evolution-card {
+    width: 150px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+  }
+  
+  .evolution-image {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+  }
+  
+  .sub-evolutions {
+    display: flex;
+    align-items: center;
+  }
+  
+  .sub-evolutions.vertical {
+    flex-direction: column;
+  }
+  
+  .evolutions-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .evolutions-container.wrap {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .evolution-card-wrap {
+    flex: 1 1 150px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .container {
+      width: 100%;
+    }
+  
+    .evolution-row {
+      flex-direction: column;
+    }
+  
+    .sub-evolutions {
+      flex-direction: column;
+    }
+  
+    .evolutions-container {
+      flex-direction: row;
+    }
+  
+    .evolution-card {
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
+  }
+  

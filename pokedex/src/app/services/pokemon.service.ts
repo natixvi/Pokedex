@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { PokemonResponse } from '../models/pokemonResponse';
 import { PokemonDetails } from '../models/pokemonDetails';
+import { EvolutionChain } from '../models/EvolutionChain';
+import { EvolutionDetails } from '../models/EvolutionDetails';
+import { PokemonSpecies } from '../models/pokemonSpecies';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +30,8 @@ export class PokemonService {
         next: response.next,
         results: response.results.map( pokemon => ({
           name: pokemon.name,
-          image: `https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`
+          image: `https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`,
+          url: pokemon.url
         }))
       } as PokemonResponse))
     );
@@ -62,5 +66,55 @@ export class PokemonService {
         image: `https://img.pokemondb.net/artwork/large/${response.name}.jpg`
       } as PokemonDetails))
     );
+  }
+
+
+  getPokemonSpecies(url: string): Observable<PokemonSpecies>{
+    return this.http.get<PokemonSpecies>(url).pipe(
+      map(response => ({
+        id: response.id,
+        base_happiness: response.base_happiness,
+        capture_rate: response.capture_rate,
+        is_baby: response.is_baby,
+        is_legendary: response.is_legendary,
+        is_mythical: response.is_mythical,
+        evolution_chain: { url: response.evolution_chain.url}
+      } as PokemonSpecies))
+    );
+  }
+
+  getEvolutionChain(url: string): Observable<EvolutionChain> {
+    return this.http.get<any>(url).pipe( 
+      map(response => ({
+        id: response.id,
+        chain: this.mapEvolutionChain(response.chain)
+      }))
+    );
+  }
+
+  private mapEvolutionChain(chain: any): EvolutionDetails {
+    return {
+      species: {
+        name: chain.species.name
+      },
+      image: `https://img.pokemondb.net/artwork/large/${chain.species.name}.jpg`,
+      evolves_to: chain.evolves_to.map((evolve: any) => this.mapEvolutionChain(evolve))
+    };
+  }
+  
+  getPokemonDetailsWithEvolution(id: number): Observable<any>{
+    return this.getPokemonById(id).pipe(
+      switchMap(pokemonDetails => 
+        this.getPokemonSpecies(pokemonDetails.species.url).pipe(
+          switchMap(speciesDetails => 
+            this.getEvolutionChain(speciesDetails.evolution_chain.url).pipe(
+              map(evolutionChain => ({
+                pokemonDetails,
+                speciesDetails,
+                evolutionChain
+              }))
+            ))
+        ))
+    )
   }
 }

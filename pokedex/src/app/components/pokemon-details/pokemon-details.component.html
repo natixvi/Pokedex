@@ -1,0 +1,110 @@
+@if (pokemonDetails) {
+    <div class="grid nested-grid">
+        <div class="col-12">
+            <div class="grid">
+                <div class="col-6">
+                    @if (pokemonDetails.id !== 1) {
+                        <p-button label="{{previousPokemon.name}}" severity="secondary" icon="pi pi-arrow-left" styleClass="custom-button" (onClick)="moveToAnotherPokemonById(previousPokemon.id)"/>
+                    }
+                </div>
+                <div class="col-6">
+                    @if (pokemonDetails.id !== 1025) {
+                        <p-button label="{{nextPokemon.name}}" severity="secondary"  icon="pi pi-arrow-right" iconPos="right" styleClass="custom-button" (onClick)="moveToAnotherPokemonById(nextPokemon.id)"/>
+                    }   
+                </div>
+            </div>
+        </div>
+        <div class="col-12" id="header"><span id="name">{{pokemonDetails.name | uppercase }}</span> <span id="order">#{{pokemonDetails.id | zeroPad}}</span></div>
+        <div class="col-12 sm:col-12 md:col-4 image-container flex align-items-center justify-content-center" id="info-image">
+            <img  alt="{{pokemonDetails.name}}" src={{pokemonDetails.image}}/>
+        </div>
+        <div class="col-12 sm:col-12 md:col-8">
+            <div class="col-12">
+                <p-fieldset legend="Basic details">
+                    <div class="flex p-2">
+                        <div id="info"> 
+                            <p> <span class="info">Height:</span> {{pokemonDetails.height/10}}m </p>
+                            <p> <span class="info">Weight:</span> {{pokemonDetails.weight/10}}kg </p>
+                            @if(pokemonSpeciesDetails){
+                                <p> <span class="info">Capture rate:</span> {{pokemonSpeciesDetails.capture_rate}} </p>
+                                <p> <span class="info">Base happiness:</span> {{pokemonSpeciesDetails.base_happiness}} </p>
+                            }
+                        </div>
+                        <div id="info-2">
+                            @if(pokemonSpeciesDetails){
+                                <p> <span class="info">Is baby:</span> 
+                                    @if(pokemonSpeciesDetails.is_baby == true){
+                                        Yes
+                                    }
+                                    @else{
+                                        No
+                                    }
+                                </p>
+                                <p> <span class="info">Is legendary:</span> 
+                                    @if(pokemonSpeciesDetails.is_legendary == true){
+                                        Yes
+                                    }
+                                    @else{
+                                        No
+                                    }
+                                </p>
+                                <p> <span class="info">Is mythical:</span> 
+                                    @if(pokemonSpeciesDetails.is_mythical == true){
+                                        Yes
+                                    }
+                                    @else{
+                                        No
+                                    }
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </p-fieldset> 
+            </div>
+            
+            <div class="col-12">
+                <p-fieldset legend="Types">
+                    @for (type of pokemonDetails.types; track $index) {
+                        <app-pokemon-type-tag [type]="type.type.name" class="p-2"></app-pokemon-type-tag>
+                    }
+                </p-fieldset>
+            </div>
+            
+        </div> 
+        <div class="col-12">
+            <div class="container">
+                <h2>Evolution Chain</h2>
+            @if (this.evolutionChain && this.evolutionChain.chain.evolves_to && this.evolutionChain.chain.evolves_to.length > 0) {
+                <div class="row">
+                    <ng-container *ngTemplateOutlet="renderEvolutionChain; context: { $implicit: evolutionChain.chain }"></ng-container>
+                </div>
+            }
+            @else {
+                <p>This pokemon doesn't evolve.</p>
+            }
+            <ng-template #renderEvolutionChain let-chain let-level="level">
+                <div class="evolution-row">
+                    <div class="evolution-card">
+                        <p-card header="{{ chain.species.name }}" (click)="moveToAnotherPokemonByName(chain.species.name)" >
+                            <ng-template pTemplate="header" class="image">
+                                <img alt="{{ chain.species.name }}" [src]= "chain.image" class="evolution-image" />
+                            </ng-template>
+                        </p-card>
+                    </div>
+                    @if(chain.evolves_to && chain.evolves_to.length > 0){
+                        <div class="sub-evolutions">
+                            <i class="pi pi-arrow-right" style="color: slateblue; font-size: 2.5rem;"></i>
+                            <div class="evolutions-container" [ngClass]="{'wrap': (chain.evolves_to.length > 4)}">
+                                @for (subEvolution of chain.evolves_to; track $index) {
+                                    <ng-container *ngTemplateOutlet="renderEvolutionChain; context: { $implicit: subEvolution}"></ng-container>
+                                }     
+                            </div>
+                        </div>
+                    }   
+                </div>
+            </ng-template>
+        
+            </div>
+        </div>    
+    </div>  
+}
