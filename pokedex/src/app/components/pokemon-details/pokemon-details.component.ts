@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { Component, HostListener, OnInit } from '@angular/core';
+import { ActivatedRoute, Route, Router, RouterModule } from '@angular/router';
 import { PokemonDetails } from '../../models/pokemonDetails';
 import { PokemonService } from '../../services/pokemon.service';
 import { CommonModule  } from '@angular/common';
@@ -9,11 +9,13 @@ import { PokemonSpecies } from '../../models/pokemonSpecies';
 import { EvolutionChain } from '../../models/EvolutionChain';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { Pokemon } from '../../models/pokemon';
 
 @Component({
   selector: 'app-pokemon-details',
   standalone: true,
-  imports: [RouterModule, CommonModule, ZeroPadPipe, FieldsetModule, CardModule, PokemonTypeTagComponent],
+  imports: [RouterModule, CommonModule, ZeroPadPipe, FieldsetModule, CardModule, PokemonTypeTagComponent, ButtonModule],
   templateUrl: './pokemon-details.component.html',
   styleUrl: './pokemon-details.component.css'
 })
@@ -24,10 +26,13 @@ export class PokemonDetailsComponent implements OnInit {
   pokemonSpeciesDetails?: PokemonSpecies;
   evolutionChain?: EvolutionChain;
   evolutionChainList: any[] = [];
+  isVertical: boolean = false;
+  previousPokemon: PokemonDetails = {} as PokemonDetails;
+  nextPokemon: PokemonDetails = {} as PokemonDetails;
 
   pokemonName: string = '';
   
-  constructor(private route: ActivatedRoute, private pokemonService: PokemonService){}
+  constructor(private route: ActivatedRoute, private pokemonService: PokemonService, private router: Router){}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(
@@ -35,7 +40,6 @@ export class PokemonDetailsComponent implements OnInit {
         const name = params.get('name');
         if(name){
           this.getPokemonDetails(name);
-          
         }
       }
     );
@@ -46,12 +50,34 @@ export class PokemonDetailsComponent implements OnInit {
       this.pokemonDetails = data.pokemonDetails,
       this.pokemonSpeciesDetails = data.speciesDetails,
       this.evolutionChain = data.evolutionChain;
-      
-      console.log( data.evolutionChain)
+      const currentId = this.pokemonDetails?.id;
+      console.log(currentId)
+      if(currentId && currentId > 1){
+        this.pokemonService.getPokemonById(currentId - 1).subscribe(prevData => {
+          this.previousPokemon = prevData;
+        });
+      }
+      else{
+        this.previousPokemon = {} as PokemonDetails;
+      }
+      if(currentId && currentId < 1302){
+        this.pokemonService.getPokemonById(currentId + 1).subscribe(nextData => {
+          this.nextPokemon = nextData;
+        });
+      }else{
+        this.nextPokemon = {} as PokemonDetails;
+      }
 
-    })
+      })
   }
 
+  getPreviousAndNextPokemonDetails(){
+    this.pokemonService
+  }
+
+  moveToAnotherPokemon(name: string){
+    this.router.navigate(['/pokemon', name]);
+  }
 
 
 }
