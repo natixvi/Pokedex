@@ -5,7 +5,7 @@ import { Subscription} from 'rxjs';
 import { SharedPokemonListAndNavService } from '../../services/shared/shared-pokemon-list-and-nav.service';
 import { ButtonModule } from 'primeng/button';
 import { Pokemon } from '../../models/pokemon';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 
 @Component({
@@ -23,7 +23,7 @@ export class PokemonListComponent implements OnInit, OnDestroy{
   currentOffset: number = 0
   maxLoadedPokemon: number = 0
 
-  constructor(private pokemonService: PokemonService, private sharedPokemonListAndNav: SharedPokemonListAndNavService){
+    constructor(private pokemonService: PokemonService, private sharedPokemonListAndNav: SharedPokemonListAndNavService, private router: Router){
    
   }
  
@@ -53,20 +53,31 @@ export class PokemonListComponent implements OnInit, OnDestroy{
 
   }
 
-  loadMorePokemon(): void {
+    loadMorePokemon(): void {
     const PokemonToGet = this.maxLoadedPokemon - this.currentOffset
 
     if(PokemonToGet>0){
-      this.currentLimit = Math.min(this.currentLimit,PokemonToGet)
-      this.pokemonService.getPokemons(this.currentLimit,this.currentOffset).subscribe( response => {
-      this.pokemons = [...this.pokemons, ...response.results];
-      this.currentOffset += this.currentLimit;
+        this.currentLimit = Math.min(this.currentLimit,PokemonToGet)
+        this.pokemonService.getPokemons(this.currentLimit,this.currentOffset).subscribe( response => {
+        this.pokemons = [...this.pokemons, ...response.results];
+        this.currentOffset += this.currentLimit;
     });
-  }
-}
-moveToTop(){
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-}
+    }
+    }
+    moveToTop(){
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+        }
+
+    goToPokemonDetails(url: string) {
+        const id = this.extractIdFromUrl(url);
+        console.log(id)
+        this.router.navigate(['/pokemon', id]);
+    }
+
+    extractIdFromUrl(url: string): number {
+        const parts = url.split('/');
+        return +parts[parts.length - 2];
+    }
 
 }
 
