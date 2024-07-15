@@ -6,3 +6,12 @@
   background: url('..\\..\\assets\\pokeball.png') no-repeat center center;
   background-size: contain;
 }
+
+::ng-deep .pi-check{
+  order: 1
+}
+::ng-deep .ml-2 {
+  flex-grow: 1;
+ }
+ 
+ 
