@@ -76,7 +76,7 @@
                 <h2>Evolution Chain</h2>
             @if (this.evolutionChain && this.evolutionChain.chain.evolves_to && this.evolutionChain.chain.evolves_to.length > 0) {
                 <div class="row">
-                    <ng-container *ngTemplateOutlet="renderEvolutionChain; context: { $implicit: evolutionChain.chain, level: 0 }"></ng-container>
+                    <ng-container *ngTemplateOutlet="renderEvolutionChain; context: { $implicit: evolutionChain.chain }"></ng-container>
                 </div>
             }
             @else {
@@ -93,14 +93,13 @@
                     </div>
                     @if(chain.evolves_to && chain.evolves_to.length > 0){
                         <div class="sub-evolutions">
-                            <i [ngClass]="{'pi-arrow-right': !isVertical, 'pi-arrow-down': isVertical}" class="pi" style="color: slateblue; font-size: 2.5rem;"></i>
-                            <div class="evolutions-container" [ngClass]="{'wrap': isVertical || (level === 0 && chain.evolves_to.length > 3)}">
+                            <i class="pi pi-arrow-right" style="color: slateblue; font-size: 2.5rem;"></i>
+                            <div class="evolutions-container" [ngClass]="{'wrap': (chain.evolves_to.length > 4)}">
                                 @for (subEvolution of chain.evolves_to; track $index) {
-                                    <ng-container *ngTemplateOutlet="renderEvolutionChain; context: { $implicit: subEvolution, level: level+1}"></ng-container>
+                                    <ng-container *ngTemplateOutlet="renderEvolutionChain; context: { $implicit: subEvolution}"></ng-container>
                                 }     
                             </div>
                         </div>
-
                     }   
                 </div>
             </ng-template>
@@ -109,26 +108,3 @@
         </div>    
     </div>  
 }
-
-
-<!-- <ng-template #renderEvolutionChain let-chain>
-                <div class="col-12 md:col-4 lg:col-4 xl:col-3">
-                    <p-card header="{{ chain.species.name }}" >
-                        <ng-template pTemplate="header" class="image">
-                            <img alt="{{ chain.species.name }}" [src]= "chain.image" class="evolution-image" />
-                        </ng-template>
-                    </p-card>
-                    @if(chain.evolves_to && chain.evolves_to.length > 0){
-                        <i class="pi pi-arrow-down" style="color: slateblue; font-size: 2.5rem; width: 100%;"></i>
-                    }   
-                </div>
-                @if(chain.evolves_to && chain.evolves_to.length > 0){   
-                    <div class="col-12">
-                        <div class="grid">
-                            @for (subEvolution of chain.evolves_to; track $index) {
-                                <ng-container *ngTemplateOutlet="renderEvolutionChain; context: { $implicit: subEvolution}"></ng-container>
-                            }     
-                        </div>
-                    </div>                      
-                }
-            </ng-template> -->
