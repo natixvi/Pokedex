@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -10,6 +11,7 @@ export class SharedPokemonListAndNavService {
 
   changePokemonParam(limit?: number, offset?: number){
     this.changeGetPokemonParam.next({limit,offset});
+    this.router.navigate([''])
   }
-  constructor() { }
+  constructor(private router: Router) { }
 }

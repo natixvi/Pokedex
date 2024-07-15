@@ -1,3 +1,12 @@
-<p-panelMenu [model]="items" [multiple]="true" />
+<p-panelMenu [model]="items" [multiple]="true">
+    <ng-template pTemplate="item" let-item>
+        <a pRipple class="flex align-items-center px-3 py-3 cursor-pointer">
+            <i [class]="item.icon + ' text-primary'"></i>
+            <span class="ml-2">
+                {{ item.label }}
+            </span>
+        </a>
+    </ng-template>
+</p-panelMenu>
 
 
