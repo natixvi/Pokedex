@@ -1,9 +1,10 @@
-import {Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { BadgeModule } from 'primeng/badge';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -110,7 +111,6 @@ export class NavbarComponent implements OnInit {
       this.router.navigate([''], { queryParams: { limit, offset } });
     }
 
- 
     
    
 }
