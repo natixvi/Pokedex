@@ -33,7 +33,7 @@ export class NavbarComponent implements OnInit {
                 {label:'Generation I', command: () => this.sharedPokemonListAndNav.changePokemonParam(151)},
                 {label:'Generation II', command: () => this.sharedPokemonListAndNav.changePokemonParam(100,151)},
                 {label:'Generation III',command: () => this.sharedPokemonListAndNav.changePokemonParam(135,251)},
-                {label:'Generation IV',command: () => this.sharedPokemonListAndNav.changePokemonParam(106,385)},
+                {label:'Generation IV',command: () => this.sharedPokemonListAndNav.changePokemonParam(106,386)},
                 {label:'Generation V',command: () => this.sharedPokemonListAndNav.changePokemonParam(155,493)},
                 {label:'Generation VI',command: () => this.sharedPokemonListAndNav.changePokemonParam(71,649)},
                 {label:'Generation VII',command: () => this.sharedPokemonListAndNav.changePokemonParam(87,721)},

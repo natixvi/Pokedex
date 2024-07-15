@@ -1,5 +1,5 @@
 <div class="grid">
-    @for (poke of (pokemons | async)?.results; track $index) {
+    @for (poke of pokemons; track $index) {
         <div class="col-12 sm:col-6 md:col-6 lg:col-4 xl:col-3">
             <p-card header={{poke.name}}>
                 <ng-template pTemplate="header">
@@ -8,4 +8,15 @@
             </p-card>
         </div>
     }
+    
+</div>
+<div class="grid">
+    <div class="col-12 text-center">
+        @if(maxLoadedPokemon!=currentOffset){
+            <p-button label="LOAD MORE" (click)="loadMorePokemon()"/>
+        }
+        @else {
+                <p-button label="Move To Top" (click)="moveToTop()"/>
+            }
+    </div>
 </div>
