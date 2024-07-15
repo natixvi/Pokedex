@@ -30,7 +30,8 @@ export class PokemonService {
         next: response.next,
         results: response.results.map( pokemon => ({
           name: pokemon.name,
-          image: `https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`
+          image: `https://img.pokemondb.net/artwork/large/${pokemon.name}.jpg`,
+          url: pokemon.url
         }))
       } as PokemonResponse))
     );
@@ -101,8 +102,8 @@ export class PokemonService {
     };
   }
   
-  getPokemonDetailsWithEvolution(name: string): Observable<any>{
-    return this.getPokemonByName(name).pipe(
+  getPokemonDetailsWithEvolution(id: number): Observable<any>{
+    return this.getPokemonById(id).pipe(
       switchMap(pokemonDetails => 
         this.getPokemonSpecies(pokemonDetails.species.url).pipe(
           switchMap(speciesDetails => 

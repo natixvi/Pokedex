@@ -10,7 +10,6 @@ import { EvolutionChain } from '../../models/EvolutionChain';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
-import { Pokemon } from '../../models/pokemon';
 
 @Component({
   selector: 'app-pokemon-details',
@@ -29,55 +28,57 @@ export class PokemonDetailsComponent implements OnInit {
   isVertical: boolean = false;
   previousPokemon: PokemonDetails = {} as PokemonDetails;
   nextPokemon: PokemonDetails = {} as PokemonDetails;
-
   pokemonName: string = '';
+  disablePrevButton: boolean = false;
+  disableNextButton: boolean = false;
   
   constructor(private route: ActivatedRoute, private pokemonService: PokemonService, private router: Router){}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe(
       params => {
-        const name = params.get('name');
-        if(name){
-          this.getPokemonDetails(name);
+        const id = params.get('id');
+        if(id){
+          this.getPokemonDetails(parseInt(id));
         }
       }
     );
   }
 
-  getPokemonDetails(name: string) : void{
-    this.pokemonService.getPokemonDetailsWithEvolution(name).subscribe(data =>{
+  getPokemonDetails(id: number) : void{
+    this.pokemonService.getPokemonDetailsWithEvolution(id).subscribe(data =>{
       this.pokemonDetails = data.pokemonDetails,
       this.pokemonSpeciesDetails = data.speciesDetails,
       this.evolutionChain = data.evolutionChain;
       const currentId = this.pokemonDetails?.id;
-      console.log(currentId)
-      if(currentId && currentId > 1){
-        this.pokemonService.getPokemonById(currentId - 1).subscribe(prevData => {
-          this.previousPokemon = prevData;
-        });
-      }
-      else{
-        this.previousPokemon = {} as PokemonDetails;
-      }
-      if(currentId && currentId < 1302){
-        this.pokemonService.getPokemonById(currentId + 1).subscribe(nextData => {
-          this.nextPokemon = nextData;
-        });
-      }else{
-        this.nextPokemon = {} as PokemonDetails;
-      }
-
-      })
+    
+      if(currentId){
+        if(currentId > 1){
+          this.pokemonService.getPokemonById(currentId - 1).subscribe(prevData => {
+            this.previousPokemon = prevData;
+          })
+        }
+        if(currentId < 10277){
+          this.pokemonService.getPokemonById(currentId + 1).subscribe(nextData => {
+            this.nextPokemon = nextData;
+          });
+        }
+      }})
   }
 
-  getPreviousAndNextPokemonDetails(){
-    this.pokemonService
+  
+
+  moveToAnotherPokemonById(id: number){
+    this.router.navigate(['/pokemon', id]);
   }
 
-  moveToAnotherPokemon(name: string){
-    this.router.navigate(['/pokemon', name]);
+  moveToAnotherPokemonByName(name: string){
+    let pokemon: PokemonDetails =  {} as PokemonDetails;
+    this.pokemonService.getPokemonByName(name).subscribe(response => {
+      pokemon = response,
+      this.router.navigate(['/pokemon', pokemon.id])
+      }
+    )
+   
   }
-
-
 }
