@@ -23,14 +23,10 @@ export class PokemonListComponent implements OnInit {
 
   ngOnInit(): void {
    this.pokemons = this.getPokemons(151)
-   console.log(this.pokemons)
   }
 
   getPokemons(limit?:number,offset?: number): Observable<PokemonResponse>{
     return this.pokemonService.getPokemons(limit,offset)
   }
-
-
-
   
 }
