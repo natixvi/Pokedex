@@ -108,7 +108,7 @@ export class NavbarComponent implements OnInit {
     
     navigateToGeneration(limit: number, offset: number): void {
 
-      this.router.navigate([''], { queryParams: { limit, offset } });
+      this.router.navigate(['/pokemons'], { queryParams: { limit, offset } });
     }
 
     
