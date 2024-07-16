@@ -1,15 +1,9 @@
 import {ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { PanelMenuModule } from 'primeng/panelmenu';
-<<<<<<< HEAD
 import { BadgeModule } from 'primeng/badge';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-=======
-import { SharedPokemonListAndNavService } from '../../services/shared/shared-pokemon-list-and-nav.service';
-import { BadgeModule } from 'primeng/badge';
-import { CommonModule } from '@angular/common';
->>>>>>> dd9d1d51fd96bb273cd015ed2d67391412d097d9
 
 
 @Component({
@@ -23,11 +17,8 @@ export class NavbarComponent implements OnInit {
  
   items?: MenuItem[];
   selectedTypes: string[] =[]
-<<<<<<< HEAD
+
   constructor(private router: Router){
-=======
-  constructor(private sharedPokemonListAndNav: SharedPokemonListAndNavService){
->>>>>>> dd9d1d51fd96bb273cd015ed2d67391412d097d9
 
   }
 
@@ -111,8 +102,6 @@ export class NavbarComponent implements OnInit {
       
        
     }
-<<<<<<< HEAD
-    
    
     }
     
@@ -120,10 +109,6 @@ export class NavbarComponent implements OnInit {
 
       this.router.navigate([''], { queryParams: { limit, offset } });
     }
-=======
-   
-    }
->>>>>>> dd9d1d51fd96bb273cd015ed2d67391412d097d9
 
  
     

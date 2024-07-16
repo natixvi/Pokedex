@@ -27,11 +27,11 @@ export class PokemonListComponent implements OnInit, OnDestroy{
   
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
-      this.currentLimit = +params['limit'] || 20;
-      this.currentOffset = +params['offset'] || 0;  
-      this.maxLoadedPokemon = this.currentOffset + this.currentLimit;
-      this.getPokemons();
+      let limit = +params['limit'] || 151
+      let offset = +params['offset'] || 0;  
+      this.getPokemons(limit,offset);
     });
+    
    
   }
 
@@ -40,8 +40,11 @@ export class PokemonListComponent implements OnInit, OnDestroy{
   }
 
 
-  getPokemons(){
-  
+  getPokemons(limit?:number,offset?: number){
+      this.currentOffset= offset ?? 0
+      this.currentLimit = 20
+      this.maxLoadedPokemon = (limit?? 20) + this.currentOffset;  
+
       this.pokemonService.getPokemons(this.currentLimit,this.currentOffset).subscribe( response => {
       this.pokemons = response.results;
       this.currentOffset += this.currentLimit;
