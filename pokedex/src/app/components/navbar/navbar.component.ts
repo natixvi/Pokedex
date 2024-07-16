@@ -18,6 +18,7 @@ export class NavbarComponent implements OnInit {
  
   items?: MenuItem[];
   selectedTypes: string[] =[]
+
   constructor(private router: Router){
 
   }
@@ -102,7 +103,6 @@ export class NavbarComponent implements OnInit {
       
        
     }
-    
    
     }
     
