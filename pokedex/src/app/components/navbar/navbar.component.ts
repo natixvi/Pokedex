@@ -1,9 +1,9 @@
-import {ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {Component, OnInit } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { PanelMenuModule } from 'primeng/panelmenu';
-import { SharedPokemonListAndNavService } from '../../services/shared/shared-pokemon-list-and-nav.service';
 import { BadgeModule } from 'primeng/badge';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -17,7 +17,7 @@ export class NavbarComponent implements OnInit {
  
   items?: MenuItem[];
   selectedTypes: string[] =[]
-  constructor(private sharedPokemonListAndNav: SharedPokemonListAndNavService){
+  constructor(private router: Router){
 
   }
 
@@ -32,16 +32,16 @@ export class NavbarComponent implements OnInit {
               label: 'Generation',
               icon: 'pi pi-angle-down',
               items:[
-                {label:'National', command: () => this.sharedPokemonListAndNav.changePokemonParam(1025)},
-                {label:'Generation I', command: () => this.sharedPokemonListAndNav.changePokemonParam(151)},
-                {label:'Generation II', command: () => this.sharedPokemonListAndNav.changePokemonParam(100,151)},
-                {label:'Generation III',command: () => this.sharedPokemonListAndNav.changePokemonParam(135,251)},
-                {label:'Generation IV',command: () => this.sharedPokemonListAndNav.changePokemonParam(106,386)},
-                {label:'Generation V',command: () => this.sharedPokemonListAndNav.changePokemonParam(155,493)},
-                {label:'Generation VI',command: () => this.sharedPokemonListAndNav.changePokemonParam(71,649)},
-                {label:'Generation VII',command: () => this.sharedPokemonListAndNav.changePokemonParam(87,721)},
-                {label:'Generation VIII',command: () => this.sharedPokemonListAndNav.changePokemonParam(95,809)},
-                {label:'Generation IX',command: () => this.sharedPokemonListAndNav.changePokemonParam(119,905)}
+                {label:'National', command: () => this.navigateToGeneration(1025,0)},
+                {label:'Generation I', command: () => this.navigateToGeneration(151,0)},
+                {label:'Generation II', command: () => this.navigateToGeneration(100,151)},
+                {label:'Generation III',command: () => this.navigateToGeneration(135,251)},
+                {label:'Generation IV',command: () => this.navigateToGeneration(106,386)},
+                {label:'Generation V',command: () => this.navigateToGeneration(155,493)},
+                {label:'Generation VI',command: () => this.navigateToGeneration(71,649)},
+                {label:'Generation VII',command: () => this.navigateToGeneration(87,721)},
+                {label:'Generation VIII',command: () => this.navigateToGeneration(95,809)},
+                {label:'Generation IX',command: () => this.navigateToGeneration(119,905)}
               ]
             },
             {
@@ -101,7 +101,13 @@ export class NavbarComponent implements OnInit {
       
        
     }
+    
    
+    }
+    
+    navigateToGeneration(limit: number, offset: number): void {
+
+      this.router.navigate([''], { queryParams: { limit, offset } });
     }
 
  

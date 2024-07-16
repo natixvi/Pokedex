@@ -1,11 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PokemonService } from '../../services/pokemon.service';
 import { CardModule } from 'primeng/card';
-import { Subscription} from 'rxjs';
-import { SharedPokemonListAndNavService } from '../../services/shared/shared-pokemon-list-and-nav.service';
 import { ButtonModule } from 'primeng/button';
 import { Pokemon } from '../../models/pokemon';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 
 @Component({
@@ -18,32 +16,32 @@ import { Router, RouterModule } from '@angular/router';
 export class PokemonListComponent implements OnInit, OnDestroy{
 
   pokemons: Pokemon[]= []
-  private subscription: Subscription = {} as Subscription
   currentLimit: number = 20
   currentOffset: number = 0
   maxLoadedPokemon: number = 0
 
-    constructor(private pokemonService: PokemonService, private sharedPokemonListAndNav: SharedPokemonListAndNavService, private router: Router){
+    constructor(private pokemonService: PokemonService, private router: Router, private route: ActivatedRoute){
    
   }
  
   
   ngOnInit(): void {
-    this.subscription = this.sharedPokemonListAndNav.changedParam.subscribe(params => this.getPokemons(params.limit,params.offset))
-    this.getPokemons(151)
+    this.route.queryParams.subscribe(params => {
+      this.currentLimit = +params['limit'] || 20;
+      this.currentOffset = +params['offset'] || 0;  
+      this.maxLoadedPokemon = this.currentOffset + this.currentLimit;
+      this.getPokemons();
+    });
+   
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+   
   }
 
 
-  getPokemons(limit?:number,offset?: number){
-    
-      this.currentOffset= offset ?? 0
-      this.currentLimit = 20
-      this.maxLoadedPokemon = (limit?? 20) + this.currentOffset;
-
+  getPokemons(){
+  
       this.pokemonService.getPokemons(this.currentLimit,this.currentOffset).subscribe( response => {
       this.pokemons = response.results;
       this.currentOffset += this.currentLimit;
