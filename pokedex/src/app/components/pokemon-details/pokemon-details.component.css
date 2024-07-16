@@ -40,88 +40,103 @@ app-pokemon-type-tag{
 ::ng-deep .custom-button span{
   margin-right: 0px;
 }
+
 .container {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.container p{
+  padding-left: 1.5rem;
+  font-size: 18px;
+}
+
+#eve-chain-header{
+  padding: 1.75rem;
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.evolution-row {
+  display: flex;
+  align-items: center;
+}
   
-  .row {
-    display: flex;
-    flex-direction: column;
-  }
-  
+.evolution-card {
+  margin-right: 10px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+::ng-deep .p-card{
+  width: 150px;
+  height: 200px;
+}
+
+::ng-deep .p-card-header{
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.evolution-image {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+}
+
+::ng-deep .p-card-body{
+  display: flex;
+  justify-content: center;
+  padding: 0;
+}
+
+.sub-evolutions {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+}
+
+.sub-evolutions i{
+  margin-right: 20px;
+}
+
+.evolutions-container {
+  display: flex;
+  flex-direction: column;
+}
+
+
+@media (max-width: 767px){
   .evolution-row {
     display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-  
-  .evolution-row.vertical {
     flex-direction: column;
   }
-  
-  .evolution-card {
-    width: 150px;
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-  }
-  
-  .evolution-image {
-    width: 100px;
-    height: 100px;
-    object-fit: contain;
-  }
-  
+
   .sub-evolutions {
-    display: flex;
-    align-items: center;
-  }
-  
-  .sub-evolutions.vertical {
     flex-direction: column;
+    margin-left: 0;
   }
-  
-  .evolutions-container {
-    display: flex;
-    flex-direction: column;
+
+  .sub-evolutions i {
+    margin-bottom: 10px; 
   }
-  
-  .evolutions-container.wrap {
-    flex-direction: row;
-    flex-wrap: wrap;
+
+  #eve-chain-header{
+    padding: 1.75rem;
+    font-size: 25px;
+    font-weight: bold;
+    text-align: center;
   }
-  
-  .evolution-card-wrap {
-    flex: 1 1 150px;
+
+  ::ng-deep .p-card-title{
+    font-size: 20px;
   }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .container {
-      width: 100%;
-    }
-  
-    .evolution-row {
-      flex-direction: column;
-    }
-  
-    .sub-evolutions {
-      flex-direction: column;
-    }
-  
-    .evolutions-container {
-      flex-direction: row;
-    }
-  
-    .evolution-card {
-      margin-right: 0;
-      margin-bottom: 20px;
-    }
+
+  .container p{
+    text-align: center;
   }
-  
+}
