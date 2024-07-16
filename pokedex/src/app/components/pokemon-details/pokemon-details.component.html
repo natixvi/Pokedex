@@ -71,18 +71,15 @@
             </div>
             
         </div> 
-        <div class="col-12">
-            <div class="container">
-                <h2>Evolution Chain</h2>
+        <div class="col-12 container">
+            <div id="eve-chain-header"> Evolution chain</div>
             @if (this.evolutionChain && this.evolutionChain.chain.evolves_to && this.evolutionChain.chain.evolves_to.length > 0) {
-                <div class="row">
-                    <ng-container *ngTemplateOutlet="renderEvolutionChain; context: { $implicit: evolutionChain.chain }"></ng-container>
-                </div>
+                <ng-container *ngTemplateOutlet="renderEvolutionChain; context: { $implicit: evolutionChain.chain }"></ng-container>
             }
             @else {
                 <p>This pokemon doesn't evolve.</p>
             }
-            <ng-template #renderEvolutionChain let-chain let-level="level">
+            <ng-template #renderEvolutionChain let-chain>
                 <div class="evolution-row">
                     <div class="evolution-card">
                         <p-card header="{{ chain.species.name }}" (click)="moveToAnotherPokemonByName(chain.species.name)" >
@@ -93,8 +90,9 @@
                     </div>
                     @if(chain.evolves_to && chain.evolves_to.length > 0){
                         <div class="sub-evolutions">
-                            <i class="pi pi-arrow-right" style="color: slateblue; font-size: 2.5rem;"></i>
-                            <div class="evolutions-container" [ngClass]="{'wrap': (chain.evolves_to.length > 4)}">
+
+                            <i [ngClass]="iconClass" style="color: slateblue; font-size: 2.5rem;"></i>
+                            <div class="evolutions-container">
                                 @for (subEvolution of chain.evolves_to; track $index) {
                                     <ng-container *ngTemplateOutlet="renderEvolutionChain; context: { $implicit: subEvolution}"></ng-container>
                                 }     
@@ -103,8 +101,6 @@
                     }   
                 </div>
             </ng-template>
-        
-            </div>
-        </div>    
+        </div>
     </div>  
 }

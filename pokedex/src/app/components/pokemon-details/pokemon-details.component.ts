@@ -30,6 +30,8 @@ export class PokemonDetailsComponent implements OnInit {
   pokemonName: string = '';
   disablePrevButton: boolean = false;
   disableNextButton: boolean = false;
+
+  iconClass: string = 'pi pi-arrow-right';
   
   constructor(private route: ActivatedRoute, private pokemonService: PokemonService, private router: Router){}
 
@@ -42,6 +44,7 @@ export class PokemonDetailsComponent implements OnInit {
         }
       }
     );
+    this.updateIcon(window.innerWidth);
   }
 
   getPokemonDetails(id: number) : void{
@@ -78,4 +81,15 @@ export class PokemonDetailsComponent implements OnInit {
     )
    
   }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    const width = (event.target as Window).innerWidth;
+    this.updateIcon(width);
+  }
+
+  private updateIcon(width: number) {
+    this.iconClass = width < 767 ? 'pi pi-arrow-down' : 'pi pi-arrow-right';
+  }
+  
 }
