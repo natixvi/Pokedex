@@ -1,3 +1,7 @@
+@if(isLoading){
+<app-spinner [isLoading]="isLoading"></app-spinner>
+}
+@if(!isLoading){
 <div class="grid">
     @for (poke of pokemons; track $index) {
         <div class="col-12 sm:col-6 md:col-6 lg:col-4 xl:col-3" (click)="goToPokemonDetails(poke.url)">
@@ -20,3 +24,4 @@
             }
     </div>
 </div>
+}
