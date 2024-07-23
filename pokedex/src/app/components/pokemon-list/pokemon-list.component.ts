@@ -28,8 +28,6 @@ export class PokemonListComponent implements OnInit, OnDestroy{
  
   
   ngOnInit(): void {
-    
-
     this.route.queryParams.subscribe(params => {
       let limit = +params['limit'] || 151
       let offset = +params['offset'] || 0;  
