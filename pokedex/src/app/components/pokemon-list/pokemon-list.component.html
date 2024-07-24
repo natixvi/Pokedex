@@ -1,6 +1,6 @@
-@if(isLoading){
+
 <app-spinner [isLoading]="isLoading"></app-spinner>
-}
+
 @if(!isLoading){
 <div class="grid">
     @for (poke of pokemons; track $index) {
