@@ -4,12 +4,13 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { Pokemon } from '../../models/pokemon';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { SpinnerComponent } from '../spinner/spinner.component';
 
 
 @Component({
   selector: 'app-pokemon-list',
   standalone: true,
-  imports: [CardModule, ButtonModule, RouterModule],
+  imports: [CardModule, ButtonModule, RouterModule,SpinnerComponent],
   templateUrl: './pokemon-list.component.html',
   styleUrl: './pokemon-list.component.css'
 })
@@ -19,6 +20,7 @@ export class PokemonListComponent implements OnInit, OnDestroy{
   currentLimit: number = 20
   currentOffset: number = 0
   maxLoadedPokemon: number = 0
+  isLoading:boolean = false;
 
     constructor(private pokemonService: PokemonService, private router: Router, private route: ActivatedRoute){
    
@@ -31,6 +33,8 @@ export class PokemonListComponent implements OnInit, OnDestroy{
       let offset = +params['offset'] || 0;  
       this.getPokemons(limit,offset);
     });
+
+  
     
    
   }
@@ -41,6 +45,7 @@ export class PokemonListComponent implements OnInit, OnDestroy{
 
 
   getPokemons(limit?:number,offset?: number){
+      this.isLoading = true
       this.currentOffset= offset ?? 0
       this.currentLimit = 20
       this.maxLoadedPokemon = (limit?? 20) + this.currentOffset;  
@@ -48,15 +53,13 @@ export class PokemonListComponent implements OnInit, OnDestroy{
       this.pokemonService.getPokemons(this.currentLimit,this.currentOffset).subscribe( response => {
       this.pokemons = response.results;
       this.currentOffset += this.currentLimit;
+      setTimeout(() => {this.isLoading= false},1500 )
     })
-
-    
 
   }
 
     loadMorePokemon(): void {
     const PokemonToGet = this.maxLoadedPokemon - this.currentOffset
-
     if(PokemonToGet>0){
         this.currentLimit = Math.min(this.currentLimit,PokemonToGet)
         this.pokemonService.getPokemons(this.currentLimit,this.currentOffset).subscribe( response => {
