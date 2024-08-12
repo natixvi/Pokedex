@@ -81,10 +81,16 @@ export class NavbarComponent implements OnInit {
         this.selectedTypes.splice(ifExist,1);
         this.updateIconState(item,true);
       }
+   
       else{
+        if(this.selectedTypes.length==2){
+           const removed = this.selectedTypes.splice(0,1)
+           this.updateIconState(removed[0],true);
+         }
         this.selectedTypes.push(item)
         this.updateIconState(item,false);
       }
+      console.log(this.selectedTypes)
         
       
     }

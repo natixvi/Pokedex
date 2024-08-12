@@ -53,7 +53,7 @@ export class PokemonDetailsComponent implements OnInit {
       this.pokemonSpeciesDetails = data.speciesDetails,
       this.evolutionChain = data.evolutionChain;
       const currentId = this.pokemonDetails?.id;
-    
+      console.log(this.evolutionChain?.chain)
       if(currentId){
         if(currentId > 1){
           this.pokemonService.getPokemonById(currentId - 1).subscribe(prevData => {
