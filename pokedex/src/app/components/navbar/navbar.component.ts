@@ -4,13 +4,14 @@ import { PanelMenuModule } from 'primeng/panelmenu';
 import { BadgeModule } from 'primeng/badge';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 
 
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [PanelMenuModule, BadgeModule, CommonModule],
+  imports: [PanelMenuModule, BadgeModule, CommonModule,ButtonModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css'
 })
@@ -67,7 +68,8 @@ export class NavbarComponent implements OnInit {
                 {label:'Psychic',icon:'', command: () => this.addToSelectType('Psychic')},
                 {label:'Rock',icon:'', command: () => this.addToSelectType('Rock')},
                 {label:'Steel',icon:'', command: () => this.addToSelectType('Steel')},
-                {label:'Water',icon:'', command: () => this.addToSelectType('Water')}
+                {label:'Water',icon:'', command: () => this.addToSelectType('Water')},
+                {label:'Search', icon:'pi pi-search right'}
               ]
             }           
           ]
@@ -89,9 +91,7 @@ export class NavbarComponent implements OnInit {
          }
         this.selectedTypes.push(item)
         this.updateIconState(item,false);
-      }
-      console.log(this.selectedTypes)
-        
+      }       
       
     }
 
