@@ -5,6 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { Pokemon } from '../../models/pokemon';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { SpinnerComponent } from '../spinner/spinner.component';
+import { NavbarToPokemonListService } from '../../services/shared/navbar-to-pokemon-list.service';
 
 
 @Component({
@@ -17,12 +18,13 @@ import { SpinnerComponent } from '../spinner/spinner.component';
 export class PokemonListComponent implements OnInit, OnDestroy{
 
   pokemons: Pokemon[]= []
+  types: string[] = []
   currentLimit: number = 20
   currentOffset: number = 0
   maxLoadedPokemon: number = 0
   isLoading:boolean = false;
 
-    constructor(private pokemonService: PokemonService, private router: Router, private route: ActivatedRoute){
+    constructor(private pokemonService: PokemonService, private router: Router, private route: ActivatedRoute,private pokemonNavbarToPokemonList: NavbarToPokemonListService){
    
   }
  
@@ -33,9 +35,15 @@ export class PokemonListComponent implements OnInit, OnDestroy{
       let offset = +params['offset'] || 0;  
       this.getPokemons(limit,offset);
     });
-
+    this.pokemonNavbarToPokemonList.types$.subscribe(response => {
+      this.types = response
+      })
+  
+  
   
     
+
+  
    
   }
 
