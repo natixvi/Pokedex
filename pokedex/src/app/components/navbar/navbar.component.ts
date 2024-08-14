@@ -79,6 +79,7 @@ export class NavbarComponent implements OnInit {
   }
   sendTypesToListComponent(selectedTypes: string[]): void {
     this.navbarToPokemonListService.sendTypesToListComponent(selectedTypes)
+    this.router.navigate([`/pokemons`])
   }
 
   addToSelectType(item: string){

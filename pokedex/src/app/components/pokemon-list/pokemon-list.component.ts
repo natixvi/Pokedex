@@ -30,20 +30,23 @@ export class PokemonListComponent implements OnInit, OnDestroy{
  
   
   ngOnInit(): void {
+ 
     this.route.queryParams.subscribe(params => {
       let limit = +params['limit'] || 151
       let offset = +params['offset'] || 0;  
+      if (this.types.length === 0) {
       this.getPokemons(limit,offset);
+      }
     });
+
+
     this.pokemonNavbarToPokemonList.types$.subscribe(response => {
       this.types = response
+      if (response.length > 0) {
+      this.getPokemonsByType(this.types)
+      }
       })
-  
-  
-  
-    
-
-  
+ 
    
   }
 
@@ -64,6 +67,9 @@ export class PokemonListComponent implements OnInit, OnDestroy{
       setTimeout(() => {this.isLoading= false},1500 )
     })
 
+  }
+  getPokemonsByType(types: string[]){
+    this.pokemonService.getPokemonByType(types).subscribe(response =>{this.pokemons = response; this.currentOffset=1; this.maxLoadedPokemon=1})
   }
 
     loadMorePokemon(): void {

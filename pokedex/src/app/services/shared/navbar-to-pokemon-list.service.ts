@@ -12,5 +12,6 @@ export class NavbarToPokemonListService {
 
   sendTypesToListComponent(types: string[]){
     this.typesSubject.next(types)
+    this.typesSubject.next([])
   }
 }
