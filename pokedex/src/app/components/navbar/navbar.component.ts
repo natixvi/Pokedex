@@ -5,7 +5,6 @@ import { BadgeModule } from 'primeng/badge';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { NavbarToPokemonListService } from '../../services/shared/navbar-to-pokemon-list.service';
 
 
 
@@ -21,7 +20,7 @@ export class NavbarComponent implements OnInit {
   items?: MenuItem[];
   selectedTypes: string[] =[]
 
-  constructor(private router: Router, private navbarToPokemonListService: NavbarToPokemonListService){
+  constructor(private router: Router){
 
   }
 
@@ -78,8 +77,7 @@ export class NavbarComponent implements OnInit {
     ]
   }
   sendTypesToListComponent(selectedTypes: string[]): void {
-    this.navbarToPokemonListService.sendTypesToListComponent(selectedTypes)
-    this.router.navigate([`/pokemons`])
+    this.router.navigate(['/pokemons'], { queryParams: { types: selectedTypes.join(',') } });
   }
 
   addToSelectType(item: string){

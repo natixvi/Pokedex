@@ -5,7 +5,6 @@ import { ButtonModule } from 'primeng/button';
 import { Pokemon } from '../../models/pokemon';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { SpinnerComponent } from '../spinner/spinner.component';
-import { NavbarToPokemonListService } from '../../services/shared/navbar-to-pokemon-list.service';
 
 
 @Component({
@@ -24,7 +23,7 @@ export class PokemonListComponent implements OnInit, OnDestroy{
   maxLoadedPokemon: number = 0
   isLoading:boolean = false;
 
-    constructor(private pokemonService: PokemonService, private router: Router, private route: ActivatedRoute,private pokemonNavbarToPokemonList: NavbarToPokemonListService){
+    constructor(private pokemonService: PokemonService, private router: Router, private route: ActivatedRoute){
    
   }
  
@@ -32,20 +31,19 @@ export class PokemonListComponent implements OnInit, OnDestroy{
   ngOnInit(): void {
  
     this.route.queryParams.subscribe(params => {
-      let limit = +params['limit'] || 151
-      let offset = +params['offset'] || 0;  
-      if (this.types.length === 0) {
-      this.getPokemons(limit,offset);
+      let limit = +params['limit'] || 151;
+      let offset = +params['offset'] || 0;
+      const typesParam = params['types'];
+  
+      if (typesParam) {
+        this.types = typesParam.split(','); // Zamiana stringa na tablicę
+        this.getPokemonsByType(this.types);
+      } else {
+        this.getPokemons(limit, offset);
       }
     });
+  
 
-
-    this.pokemonNavbarToPokemonList.types$.subscribe(response => {
-      this.types = response
-      if (response.length > 0) {
-      this.getPokemonsByType(this.types)
-      }
-      })
  
    
   }
@@ -69,7 +67,9 @@ export class PokemonListComponent implements OnInit, OnDestroy{
 
   }
   getPokemonsByType(types: string[]){
-    this.pokemonService.getPokemonByType(types).subscribe(response =>{this.pokemons = response; this.currentOffset=1; this.maxLoadedPokemon=1})
+    this.isLoading = true
+    this.pokemonService.getPokemonByType(types).subscribe(response =>{this.pokemons = response; this.currentOffset=1; this.maxLoadedPokemon=1;setTimeout(() => {this.isLoading= false},1500 )})
+    
   }
 
     loadMorePokemon(): void {
