@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { map, Observable, switchMap } from 'rxjs';
+import { concatMap, forkJoin, from, map, Observable, of, switchMap } from 'rxjs';
 import { PokemonResponse } from '../models/pokemonResponse';
 import { PokemonDetails } from '../models/pokemonDetails';
 import { EvolutionChain } from '../models/EvolutionChain';
 import { EvolutionDetails } from '../models/EvolutionDetails';
 import { PokemonSpecies } from '../models/pokemonSpecies';
+import { Pokemon } from '../models/pokemon';
+import { pokemonTypeResponse } from '../models/pokemonTypeResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -116,5 +118,31 @@ export class PokemonService {
             ))
         ))
     )
+  }
+
+  getPokemonByType(types: string[]): Observable<Pokemon[]>{
+
+    const requests = types.map( type => this.http.get<pokemonTypeResponse>(`${this.apiUrl}/type/${type.toLowerCase()}`)
+    .pipe(map(response => response.pokemon.map(pokemon =>({
+      name: pokemon.pokemon.name,
+      url: pokemon.pokemon.url,
+      image: `https://img.pokemondb.net/artwork/large/${pokemon.pokemon.name}.jpg`
+    }))))
+      
+    )
+    return forkJoin(requests).pipe(
+      map((results) => {
+        if (results.length === 1) {
+          return results[0];
+        } else {
+          return results.reduce((acc, curr) =>
+            acc.filter((p: Pokemon) =>
+              curr.some((p2: Pokemon) => p.name === p2.name)
+            )
+          );
+        }
+      })
+    );
+  
   }
 }

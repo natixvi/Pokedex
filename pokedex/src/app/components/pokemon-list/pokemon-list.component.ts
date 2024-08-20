@@ -17,6 +17,7 @@ import { SpinnerComponent } from '../spinner/spinner.component';
 export class PokemonListComponent implements OnInit, OnDestroy{
 
   pokemons: Pokemon[]= []
+  types: string[] = []
   currentLimit: number = 20
   currentOffset: number = 0
   maxLoadedPokemon: number = 0
@@ -28,14 +29,22 @@ export class PokemonListComponent implements OnInit, OnDestroy{
  
   
   ngOnInit(): void {
+ 
     this.route.queryParams.subscribe(params => {
-      let limit = +params['limit'] || 151
-      let offset = +params['offset'] || 0;  
-      this.getPokemons(limit,offset);
-    });
-
+      let limit = +params['limit'] || 151;
+      let offset = +params['offset'] || 0;
+      const typesParam = params['types'];
   
-    
+      if (typesParam) {
+        this.types = typesParam.split(','); // Zamiana stringa na tablicę
+        this.getPokemonsByType(this.types);
+      } else {
+        this.getPokemons(limit, offset);
+      }
+    });
+  
+
+ 
    
   }
 
@@ -56,6 +65,11 @@ export class PokemonListComponent implements OnInit, OnDestroy{
       setTimeout(() => {this.isLoading= false},1500 )
     })
 
+  }
+  getPokemonsByType(types: string[]){
+    this.isLoading = true
+    this.pokemonService.getPokemonByType(types).subscribe(response =>{this.pokemons = response; this.currentOffset=1; this.maxLoadedPokemon=1;setTimeout(() => {this.isLoading= false},1500 )})
+    
   }
 
     loadMorePokemon(): void {

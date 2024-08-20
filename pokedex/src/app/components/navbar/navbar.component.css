@@ -7,7 +7,7 @@
   background-size: contain;
 }
 
-::ng-deep .pi-check{
+::ng-deep .pi-check, .pi-search{
   order: 1
 }
 ::ng-deep .ml-2 {
