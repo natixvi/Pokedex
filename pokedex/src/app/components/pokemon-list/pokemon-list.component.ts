@@ -99,6 +99,14 @@ export class PokemonListComponent implements OnInit, OnDestroy{
         const parts = url.split('/');
         return +parts[parts.length - 2];
     }
+    findPokemonByName(){
+      this.pokemonService.getPokemonByName(this.searchValue.toLowerCase()).subscribe(response => { const pokemon = 
+        {
+          name: response.name,
+          image: response.image,
+          url: "https://pokeapi.co/api/v2/pokemon/"+response.id+"/"}; this.pokemons = [pokemon];this.currentOffset=1; this.maxLoadedPokemon=1})
+
+    }
 
 }
 
