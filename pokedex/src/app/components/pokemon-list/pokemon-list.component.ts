@@ -5,12 +5,14 @@ import { ButtonModule } from 'primeng/button';
 import { Pokemon } from '../../models/pokemon';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { SpinnerComponent } from '../spinner/spinner.component';
+import { FormsModule } from '@angular/forms';
+import { InputGroupModule } from 'primeng/inputgroup';
 
 
 @Component({
   selector: 'app-pokemon-list',
   standalone: true,
-  imports: [CardModule, ButtonModule, RouterModule,SpinnerComponent],
+  imports: [CardModule, ButtonModule, RouterModule,SpinnerComponent,FormsModule,InputGroupModule],
   templateUrl: './pokemon-list.component.html',
   styleUrl: './pokemon-list.component.css'
 })
@@ -22,6 +24,7 @@ export class PokemonListComponent implements OnInit, OnDestroy{
   currentOffset: number = 0
   maxLoadedPokemon: number = 0
   isLoading:boolean = false;
+  searchValue: string = ''
 
     constructor(private pokemonService: PokemonService, private router: Router, private route: ActivatedRoute){
    
@@ -95,6 +98,14 @@ export class PokemonListComponent implements OnInit, OnDestroy{
     extractIdFromUrl(url: string): number {
         const parts = url.split('/');
         return +parts[parts.length - 2];
+    }
+    findPokemonByName(){
+      this.pokemonService.getPokemonByName(this.searchValue.toLowerCase()).subscribe(response => { const pokemon = 
+        {
+          name: response.name,
+          image: response.image,
+          url: "https://pokeapi.co/api/v2/pokemon/"+response.id+"/"}; this.pokemons = [pokemon];this.currentOffset=1; this.maxLoadedPokemon=1})
+
     }
 
 }
