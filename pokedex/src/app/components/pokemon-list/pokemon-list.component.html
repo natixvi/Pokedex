@@ -2,11 +2,11 @@
 <app-spinner [isLoading]="isLoading"></app-spinner>
 
 @if(!isLoading){
-    <div class="grid">
-        <div class ="col-12">
+    <div class="flex align-items-center justify-content-center">
+        <div class ="flex align-items-center justify-content-center bg-primary font-bold border-round m-2">
             <p-inputGroup>
                 <input type="text" pInputText placeholder="search pokemon" [(ngModel)]="searchValue" (keyup.enter)="findPokemonByName()" />
-                <button type="button" pButton icon="pi pi-search" style="width: 100px;" (click)="findPokemonByName()"></button>
+                <button type="button" pButton icon="pi pi-search" style="width: 50px;" (click)="findPokemonByName()"></button>
             </p-inputGroup>
         </div>
     </div>
